@@ -26,13 +26,6 @@ public class TaskForm {
 
     private byte status;
 
-    private static Map<Integer, String> statusOption = Map.ofEntries(
-            entry(1, "未着手"),
-            entry(2, "実行中"),
-            entry(3, "ステイ中"),
-            entry(4, "完了")
-    );
-
     @NotNull(message = "期限を設定してください")
     @FutureOrPresent(message = "無効な日付です")
 //    a@Pattern(regexp = "", message = "不正なパラメータです")
@@ -41,4 +34,14 @@ public class TaskForm {
     private Date createdDate;
 
     private Date updatedDate;
+
+    private String getStatusOption() {
+        return switch (this.status) {
+            case 1 -> "未着手";
+            case 2 -> "実行中";
+            case 3 -> "ステイ中";
+            case 4 -> "完了";
+            default -> "";
+        };
+    }
 }
