@@ -16,10 +16,4 @@ public class FilterConditionsForm {
     private String status;
     private List<String> statusOption;
     private String content;
-
-    //public byte translationStatus() {
-    //    switch (this.status){
-    //        case ""
-    //    }
-    //}
 }
