@@ -56,7 +56,7 @@ public class KkController {
         return new ModelAndView("redirect:/");
     }
 
-    //新規タスク追加画面表示
+    //新規タスク追加画面表示a
     @GetMapping("/new")
     public ModelAndView newContent() {
         ModelAndView mav = new ModelAndView();

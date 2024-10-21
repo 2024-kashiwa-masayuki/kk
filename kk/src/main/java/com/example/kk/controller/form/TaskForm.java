@@ -24,7 +24,7 @@ public class TaskForm {
 
     @NotNull(message = "期限を設定してください")
     @FutureOrPresent(message = "無効な日付です")
-//    @Pattern(regexp = "", message = "不正なパラメータです")
+//    a@Pattern(regexp = "", message = "不正なパラメータです")
     private Date limitDate;
 
     private Date createdDate;
