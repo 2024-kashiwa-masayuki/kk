@@ -8,6 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class KkController {
@@ -31,5 +34,17 @@ public class KkController {
         String today = sdFormat.format(date);
         mav.addObject("today", today);
         return mav;
+    }
+
+    /*
+     * タスク削除処理
+     */
+    @DeleteMapping("/delete/{id}")
+    public ModelAndView deleteComment(@PathVariable Integer id){
+
+        // 投稿をテーブルから削除
+        taskService.deleteTask(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
     }
 }
