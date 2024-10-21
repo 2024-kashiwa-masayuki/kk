@@ -47,13 +47,18 @@ public class KkController {
         // タスクデータオブジェクトを保管
         mav.addObject("Tasks", TasksData);
 
-        String status = taskForm.getMap().get(taskForm.getStatus);
-
         //本日の日付の取得
         Date date = new Date();
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
         String today = sdFormat.format(date);
         mav.addObject("today", today);
+
+        FilterConditionsForm filterConditionsForm = new FilterConditionsForm();
+        filterConditionsForm.setStart("");
+        filterConditionsForm.setEnd("");
+        filterConditionsForm.setStatus("");
+        filterConditionsForm.setContent("");
+        mav.addObject("filterConditionsForm", filterConditionsForm);
         return mav;
     }
 
@@ -127,7 +132,5 @@ public class KkController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/");
     }
-
-    taskForm.getOpitn()
 
 }

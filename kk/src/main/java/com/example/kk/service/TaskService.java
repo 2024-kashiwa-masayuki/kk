@@ -46,12 +46,13 @@ public class TaskService {
             Date endDate = new Date();
             filterConditionsForm.setEnd(formatter.format(endDate));
         }
-        // ステータスの設定
-
         // タスクの設定
         if (filterConditionsForm.getContent().isBlank()) {
             filterConditionsForm.setContent("*");
         }
+        // ステートの設定
+        TaskForm taskForm = new TaskForm();
+        Integer status = taskForm.translationToState(filterConditionsForm.getStatus());
         // find
         try{
             Date startDate = formatter.parse(filterConditionsForm.getStart());
@@ -59,7 +60,7 @@ public class TaskService {
             List<Task> results = taskRepository.findTask(
                     startDate,
                     endDate,
-                    filterConditionsForm.getStatus(),
+                    status,
                     filterConditionsForm.getContent()
             );
             return setTaskForm(results);
