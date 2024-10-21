@@ -18,7 +18,7 @@ public class KkController {
     @GetMapping("/top")
     public ModelAndView top() {
         ModelAndView mav = new ModelAndView();
-//        // タスクを全件取得処理
+//        // タスクを全件取得処理あ
 //        List<ReportForm> contentData = reportService.findAllReport();
         // 画面遷移先を指定
         mav.setViewName("/top");
