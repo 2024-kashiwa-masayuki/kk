@@ -77,6 +77,7 @@ public class TaskService {
         for (Task result : results) {
             TaskForm report = new TaskForm();
             BeanUtils.copyProperties(result, report);
+            report.setStatusLabel(report.getStatusOption());
             tasks.add(report);
         }
         return tasks;
@@ -107,7 +108,15 @@ public class TaskService {
         task.setCreatedDate(reqTask.getCreatedDate());
         task.setUpdatedDate(reqTask.getUpdatedDate());
         return task;
+    }
 
-
+    /*
+     * レコード1件取得処理
+     */
+    public TaskForm editTask(Integer id) {
+        List<Task> results = new ArrayList<>();
+        results.add((Task) TaskRepository.findById(id));
+        List<TaskForm> reports = setTaskForm(results);
+        return reports.get(0);
     }
 }

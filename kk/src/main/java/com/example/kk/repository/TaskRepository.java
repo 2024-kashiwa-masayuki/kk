@@ -21,4 +21,5 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
         nativeQuery = true
     )
     public List<Task> findTask(@Param("start")Date start, @Param("end")Date end, @Param("status")String status, @Param("content")String content);
+    public List<Task> findById(Integer id);
 }

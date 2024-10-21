@@ -27,8 +27,8 @@
 
   <!-- 絞り込み機能実装 -->
   <div>
-    <form mothod="get" th:action="@{/{start}-{end}-{status}-{content}(start=${start}, end=${end}, status=${status}, content=${content})}" th:object="${filterCondition}">
-      期限<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
+<!--    <form mothod="get" th:action="@{/{start}-{end}-{status}-{content}(start=${start}, end=${end}, status=${status}, content=${content})}" th:object="${filterCondition}">-->
+<!--      期限<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">-->
       ステータス
       <select name="status" th:field="*{status}">
         <option value="未着手">未着手</option>
@@ -70,7 +70,9 @@
       </td>
       <td>2024/10/21</td>
       <td>
-        <input type="submit" value="編集">
+        <a th:href="@{/edit/{id}(id=${content.id})}">
+          <input type="submit" value="編集">
+        </a>
       </td>
       <td>
         <form th:method="delete" th:action="@{/delete/{id}(id=${content.id})}">

@@ -35,7 +35,9 @@ public class TaskForm {
 
     private Date updatedDate;
 
-    private String getStatusOption() {
+    private String statusLabel;
+
+    public String getStatusOption() {
         return switch (this.status) {
             case 1 -> "未着手";
             case 2 -> "実行中";

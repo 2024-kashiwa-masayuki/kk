@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="styleSheet">
+    <title>タスク追加画面</title>
+</head>
+<body>
+
+<!-- エラーメッセージの表示 -->
+<div th:if="${validationError}" th:each="error : ${validationError}">
+    <div th:text="${error}"></div>
+</div>
+
+<div class="header-contents">
+    <h1>タスク編集</h1>
+</div>
+<div class="main-contents">
+    <form method="post" action="@{/edit/{id}(id=${formModel.id})}" th:object="${formModel}">
+        <div class="form-area">
+            <div>
+                <label>タスク内容</label><br />
+                <input type="text" th:field="*{content}">
+            </div>
+            <br/>
+            <div>
+                <label>タスク期限</label><br/>
+                <input type="text" th:field="*{limitDate}">
+            </div>
+            <br />
+            <div>
+                <input type="submit" value="編集">
+                <input type="hidden" name="id" th:value="*{id}">
+            </div>
+            <br />
+        </div>
+        <div>
+            <a href="./top">戻る</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
