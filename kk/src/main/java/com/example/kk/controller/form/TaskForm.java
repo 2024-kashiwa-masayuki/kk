@@ -33,6 +33,7 @@ public class TaskForm {
 
     private Date updatedDate;
 
+    // topで呼び出すかも
     private static Map<Integer, String> statusMap = Map.ofEntries(
             entry(1, "未着手"),
             entry(2, "実行中"),
