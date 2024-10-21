@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
-    public List<Task> findAllByOrderByUpdateDate();
+    public List<Task> findAllByOrderByUpdatedDate();
 }

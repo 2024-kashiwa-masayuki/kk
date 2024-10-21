@@ -20,7 +20,7 @@ public class TaskService {
      * レコード全件取得処理
      */
     public List<TaskForm> findAllTask() {
-        List<Task> results = taskRepository.findAllByOrderByUpdateDate();
+        List<Task> results = taskRepository.findAllByOrderByUpdatedDate();
         return setTaskForm(results);
     }
     /*
@@ -41,5 +41,28 @@ public class TaskService {
      */
     public void deleteTask(Integer id) {
         taskRepository.deleteById(id);
+    }
+
+    /*
+     * レコード追加
+     */
+    public void saveTask(TaskForm reqTask) {
+        Task saveTask = setTasksEntity(reqTask);
+        taskRepository.save(saveTask);
+    }
+
+    /*
+     *リストから取得した情報をentityに設定
+     */
+    private Task setTasksEntity(TaskForm reqTask) {
+        Task task = new Task();
+        task.setContent(reqTask.getContent());
+        task.setStatus((byte) 1);
+        task.setLimitDate(reqTask.getLimitDate());
+        task.setCreatedDate(reqTask.getCreatedDate());
+        task.setUpdatedDate(reqTask.getUpdatedDate());
+        return task;
+
+
     }
 }
