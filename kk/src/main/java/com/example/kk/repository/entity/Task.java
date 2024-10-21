@@ -26,8 +26,8 @@ public class Task {
     private Date limitDate;
 
     @Column(name="create_date", insertable = true, updatable = false)
-    private Date createDate;
+    private Date createdDate;
 
     @Column(name="update_date")
-    private Date updateDate;
+    private Date updatedDate;
 }

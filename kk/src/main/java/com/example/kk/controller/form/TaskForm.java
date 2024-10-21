@@ -19,7 +19,7 @@ public class TaskForm {
 
     private Date limitDate;
 
-    private Date createDate;
+    private Date createdDate;
 
-    private Date updateDate;
+    private Date updatedDate;
 }
