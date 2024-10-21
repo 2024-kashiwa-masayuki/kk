@@ -16,7 +16,6 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // @ColumnはDBのカラム名と一致している場合、nameは省略可
     @Column
     private String content;
 
