@@ -22,7 +22,7 @@ public class TaskService {
     TaskRepository taskRepository;
 
     /*
-     * レコード全件取得処理a
+     * レコード全件取得処理
      */
     public List<TaskForm> findAllTask() {
         List<Task> results = taskRepository.findAllByOrderByUpdatedDate();
@@ -76,10 +76,10 @@ public class TaskService {
         List<TaskForm> tasks = new ArrayList<>();
 
         for (Task result : results) {
-            TaskForm report = new TaskForm();
-            BeanUtils.copyProperties(result, report);
-            report.setStatusLabel(report.getStatusLabel());
-            tasks.add(report);
+            TaskForm task = new TaskForm();
+            BeanUtils.copyProperties(result, task);
+            task.setStatusLabel(task.getStatusLabel());
+            tasks.add(task);
         }
         return tasks;
     }
@@ -117,7 +117,7 @@ public class TaskService {
     public TaskForm editTask(Integer id) {
         List<Task> results = new ArrayList<>();
         results.add((Task) taskRepository.findById(id).orElse(null));
-        List<TaskForm> reports = setTaskForm(results);
-        return reports.get(0);
+        List<TaskForm> tasks = setTaskForm(results);
+        return tasks.get(0);
     }
 }
