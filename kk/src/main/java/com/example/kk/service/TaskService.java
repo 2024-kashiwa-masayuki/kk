@@ -78,7 +78,7 @@ public class TaskService {
         for (Task result : results) {
             TaskForm report = new TaskForm();
             BeanUtils.copyProperties(result, report);
-            report.setStatusLabel(report.getStatusOption());
+            report.setStatusLabel(report.getStatusLabel());
             tasks.add(report);
         }
         return tasks;
@@ -116,7 +116,7 @@ public class TaskService {
      */
     public TaskForm editTask(Integer id) {
         List<Task> results = new ArrayList<>();
-        results.add((Task) TaskRepository.findById(id));
+        results.add((Task) taskRepository.findById(id).orElse(null));
         List<TaskForm> reports = setTaskForm(results);
         return reports.get(0);
     }

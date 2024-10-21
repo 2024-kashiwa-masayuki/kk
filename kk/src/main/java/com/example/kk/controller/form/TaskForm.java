@@ -33,6 +33,8 @@ public class TaskForm {
 
     private Date updatedDate;
 
+    private String statusLabel;
+
     // topで呼び出すかも
     private static Map<Integer, String> statusMap = Map.ofEntries(
             entry(1, "未着手"),
@@ -43,7 +45,7 @@ public class TaskForm {
     /*
      * ステートのvalueを取得
      */
-    private String getStatusOption() {
+    public String getStatusLabel() {
         return switch (this.status) {
             case 1 -> "未着手";
             case 2 -> "実行中";

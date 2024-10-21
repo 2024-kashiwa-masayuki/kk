@@ -140,9 +140,9 @@ public class KkController {
     public ModelAndView editContent(@PathVariable Integer id) {
         ModelAndView mav = new ModelAndView();
         // 編集するタスクを取得。
-        TaskForm report = TaskService.editTask(id);
+        //TaskForm report = TaskService.editTask(id);
         // 編集するタスクをセット
-        mav.addObject("formModel", report);
+        //mav.addObject("formModel", report);
         // 画面遷移先を指定
         mav.setViewName("/edit");
 
@@ -153,5 +153,5 @@ public class KkController {
         session.invalidate();
 
         return mav;
-
+    }
 }
