@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <link th:href="@{/css/style.css}" rel="styleSheet">
+  <title>TODOリスト</title>
+</head>
+<body>
+<div class="header-contents">
+  <h1>TODO</h1>
+</div>
+<div class="main-contents">
+
+  <!-- 本日の日付 -->
+  <div>
+    <label>本日の日付：<span th:text="${today}"></span></label>
+  </div>
+  <br/>
+
+  <!-- タスク追加ボタン -->
+  <div>
+    <a href="/new">
+      <button class="new-button" type="button">新規タスク</button>
+    </a>
+  </div>
+  <br/>
+
+  <!-- 絞り込み機能実装あ -->
+  <div>
+    <form action="/">
+      期限<input type="text" name="start"> - <input type="text" name="end">
+      ステータス
+      <select name="status">
+        <option>未着手</option>
+        <option>実行中</option>
+        <option>ステイ中</option>
+        <option>完了</option>
+      </select>
+      タスク内容<input type="text" name="task">
+      <input type="submit" value="絞込">
+    </form>
+  </div>
+  <br />
+
+  <!-- タスク表示 -->
+  <table>
+    <tr>
+      <th>タスク内容</th>
+      <th>ステータス</th>
+      <th>　　</th>
+      <th>タスク期限</th>
+      <th>　　</th>
+      <th>　　</th>
+    </tr>
+    <!--
+    <tr th:each>
+    </tr>
+    -->
+    <tr>
+      <td>未着手タスク</td>
+      <td>
+        <select name="status">
+          <option>未着手</option>
+        </select>
+      </td>
+      <td>
+        <form action="/">
+          <input type="submit" value="変更">
+        </form>
+      </td>
+      <td>2024/10/21</td>
+      <td>
+        <input type="submit" value="編集">
+      </td>
+      <td>
+        <input type="submit" value="削除">
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
