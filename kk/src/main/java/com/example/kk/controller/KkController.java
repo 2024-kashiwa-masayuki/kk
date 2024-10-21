@@ -19,7 +19,7 @@ public class KkController {
 
     @Autowired
     TaskService taskService;
-    
+
     /*
      * タスク削除処理
      */
