@@ -52,6 +52,13 @@ public class KkController {
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
         String today = sdFormat.format(date);
         mav.addObject("today", today);
+        //空のオブジェクトをセット
+        FilterConditionsForm filterConditionsForm = new FilterConditionsForm();
+        filterConditionsForm.setStart("");
+        filterConditionsForm.setEnd("");
+        filterConditionsForm.setStatus("");
+        filterConditionsForm.setContent("");
+        mav.addObject("filterConditionsForm", filterConditionsForm);
         return mav;
     }
 
