@@ -136,22 +136,22 @@ public class KkController {
     /*
      * 投稿編集画面表示
      */
-    @GetMapping("/edit/{id}")
-    public ModelAndView editContent(@PathVariable Integer id) {
-        ModelAndView mav = new ModelAndView();
-        // 編集するタスクを取得。
-        TaskForm report = TaskService.editTask(id);
-        // 編集するタスクをセット
-        mav.addObject("formModel", report);
-        // 画面遷移先を指定
-        mav.setViewName("/edit");
-
-        //バリデーション処理。セッションの値を取得しaddObject
-        List<Object> errorList = new ArrayList<>();
-        errorList.add(session.getAttribute("validationError"));
-        mav.addObject("validationError", errorList);
-        session.invalidate();
-
-        return mav;
+//    @GetMapping("/edit/{id}")
+//    public ModelAndView editContent(@PathVariable Integer id) {
+//        ModelAndView mav = new ModelAndView();
+//        // 編集するタスクを取得。
+//        TaskForm report = TaskService.editTask(id);
+//        // 編集するタスクをセット
+//        mav.addObject("formModel", report);
+//        // 画面遷移先を指定
+//        mav.setViewName("/edit");
+//
+//        //バリデーション処理。セッションの値を取得しaddObject
+//        List<Object> errorList = new ArrayList<>();
+//        errorList.add(session.getAttribute("validationError"));
+//        mav.addObject("validationError", errorList);
+//        session.invalidate();
+//
+//        return mav;
 
 }
