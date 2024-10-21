@@ -27,16 +27,16 @@
 
   <!-- 絞り込み機能実装 -->
   <div>
-    <form action="/">
-      期限<input type="text" name="start"> - <input type="text" name="end">
+    <form mothod="get" th:action="@{/{start}-{end}-{status}-{content}(start=${start}, end=${end}, status=${status}, content=${content})}" th:object="${filterCondition}">
+      期限<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
       ステータス
-      <select name="status">
-        <option>未着手</option>
-        <option>実行中</option>
-        <option>ステイ中</option>
-        <option>完了</option>
+      <select name="status" th:field="*{status}">
+        <option value="未着手">未着手</option>
+        <option value="実行中">実行中</option>
+        <option value="ステイ中">ステイ中</option>
+        <option value="完了">完了</option>
       </select>
-      タスク内容<input type="text" name="task">
+      タスク内容<input type="text" name="content" th:field="*{content}">
       <input type="submit" value="絞込">
     </form>
   </div>
@@ -73,7 +73,9 @@
         <input type="submit" value="編集">
       </td>
       <td>
-        <input type="submit" value="削除">
+        <form th:method="delete" th:action="@{/delete/{id}(id=${content.id})}">
+          <input type="submit" value="削除" />
+        </form>
       </td>
     </tr>
   </table>
