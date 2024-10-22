@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -105,7 +106,11 @@ public class TaskService {
         Task task = new Task();
         task.setContent(reqTask.getContent());
         task.setStatus((byte) 1);
-        task.setLimitDate(reqTask.getLimitDate());
+        LocalTime localTime = LocalTime.now();
+        /*タスク期限に時間を追加
+        Date currentTime = reqTask.getLimitDate() + localTime;
+        task.setLimitDate(currentTime);
+        */
         task.setCreatedDate(reqTask.getCreatedDate());
         task.setUpdatedDate(reqTask.getUpdatedDate());
         return task;
