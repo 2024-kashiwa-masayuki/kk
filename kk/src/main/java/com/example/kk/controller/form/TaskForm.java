@@ -36,7 +36,7 @@ public class TaskForm {
     private String statusLabel;
 
     // topで呼び出すかも
-    private static Map<Integer, String> statusMap = Map.ofEntries(
+    private Map<Integer, String> statusMap = Map.ofEntries(
             entry(1, "未着手"),
             entry(2, "実行中"),
             entry(3, "ステイ中"),
