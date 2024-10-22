@@ -130,7 +130,7 @@ public class KkController {
         // 投稿をテーブルに格納
         taskService.saveTask(taskForm);
         // rootへリダイレクト
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/top");
     }
 
     /*
