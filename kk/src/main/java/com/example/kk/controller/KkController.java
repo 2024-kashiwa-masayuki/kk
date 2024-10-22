@@ -45,7 +45,7 @@ public class KkController {
         // 画面遷移先を指定
         mav.setViewName("/top");
         // タスクデータオブジェクトを保管
-        mav.addObject("Tasks", TasksData);
+        mav.addObject("tasks", TasksData);
 
         //本日の日付の取得
         Date date = new Date();

@@ -43,33 +43,28 @@
   <br />
 
   <!-- タスク表示 -->
-  <table>
-    <tr>
-      <th>タスク内容</th>
-      <th>ステータス</th>
-      <th>　　</th>
-      <th>タスク期限</th>
-      <th>　　</th>
-      <th>　　</th>
-    </tr>
-    <!--
-    <tr th:each>
-    </tr>
-    -->
-    <tr>
-      <td>未着手タスク</td>
-      <td>
-        <select name="status">
-          <option>未着手</option>
-        </select>
-      </td>
-      <td>
-        <form action="/">
-          <input type="submit" value="変更">
-        </form>
-      </td>
-      <td>2024/10/21</td>
-      <!--
+  <table class="tasks-table">
+    <thead>
+      <tr>
+        <th>タスク内容</th>
+        <th>ステータス</th>
+        <th>　　</th>
+        <th>タスク期限</th>
+        <th>　　</th>
+        <th>　　</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="task: ${tasks}">
+        <td th:text="${task.content}"></td>
+        <td th:text="${task.statusLabel}"></td>
+        <td><input type="submit" value="変更"></td>
+        <td th:text="${task.limitDate}"></td>
+        <td><input type="submit" value="編集"></td>
+        <td><input type="submit" value="削除"></td>
+      </tr>
+    </tbody>
+    <!-- content
       <td>
         <a th:href="@{/edit/{id}(id=${content.id})}">
           <input type="submit" value="編集">
@@ -80,8 +75,8 @@
           <input type="submit" value="削除" />
         </form>
       </td>
-      -->
     </tr>
+    -->
   </table>
 </div>
 </body>
