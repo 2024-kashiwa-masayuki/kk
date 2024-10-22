@@ -91,7 +91,7 @@ public class KkController {
         // 投稿をテーブルから削除
         taskService.deleteTask(id);
         // rootへリダイレクト
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/top");
     }
 
     //新規タスク追加画面表示a
