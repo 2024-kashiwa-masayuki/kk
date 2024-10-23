@@ -31,4 +31,9 @@ public class Task {
 
     @Column(name="updated_date", insertable = false, updatable = false)
     private Date updatedDate;
+
+    @PrePersist
+    public  void  onPrePersist () {
+        this.setStatus((byte)1);
+    }
 }

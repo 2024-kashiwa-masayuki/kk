@@ -159,20 +159,20 @@ public class KkController {
      * タスク編集画面表示
      */
     @GetMapping("/edit/{strId}")
-    public ModelAndView editContent(@PathVariable String strId) {
+    public ModelAndView editContent(@PathVariable String strId,
+                                    RedirectAttributes redirectAttributes) {
+
         ModelAndView mav = new ModelAndView();
-        TaskForm taskForm = new TaskForm();
-        taskForm.setStrId("");
-        if (!strId.matches("^[0-9]*$")) {
-            List<String> errorMessages = new ArrayList<String>();
-            errorMessages.add("不正なパラメータです");
-            mav.addObject("validationError", errorMessages);
-            mav.setViewName("/edit");
+        //バリデーション処理
+        if (!strId.matches("^[0-9]+$")) {
+            List<String> errorList = new ArrayList<String>();
+            errorList.add("不正なパラメータです");
+            redirectAttributes.addFlashAttribute("validationError", errorList);
+            mav.setViewName("redirect:/top");
             return mav;
         }
-        int id = Integer.parseInt(strId);
-        taskForm.setId(id);
 
+        int id = Integer.parseInt(strId);
         //編集するタスクを取得。
         TaskForm task = taskService.editTask(id);
         //編集するタスクをセット

@@ -130,7 +130,6 @@ public class TaskService {
     private Task setTasksEntity(TaskForm reqTask) {
         Task task = new Task();
         BeanUtils.copyProperties(reqTask, task);
-        task.setStatus((byte) 1);
         return task;
     }
 

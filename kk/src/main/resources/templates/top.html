@@ -9,6 +9,10 @@
 <body>
 <div class="header-contents">
   <h1>TODO</h1>
+  <!-- エラーメッセージの表示 -->
+  <div th:if="${validationError}" th:each="error : ${validationError}">
+    <div th:text="${error}"></div>
+  </div>
 </div>
 <div class="main-contents">
 
@@ -72,8 +76,9 @@
         </td>
         <td class="limit-date" th:text="${task.limitDate}"></td>
         <td>
-          <a th:href="@{/edit/{id}(id=${task.id})}">
+          <a th:href="@{/edit/{strId}(strId=${task.id})}" th:object="${taskForm}">
             <input type="submit" value="編集">
+            <input type="hidden" th:name="strId" th:value="${task.id}">
           </a>
         </td>
         <td>
