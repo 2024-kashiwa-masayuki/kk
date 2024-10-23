@@ -17,9 +17,6 @@ public class TaskForm {
     
     private int id;
 
-//    @Pattern(regexp = "^[0-9]*$", message = "不正なパラメータです")
-    private String strId;
-
     @NotBlank(message = "タスクを入力してください")
     @Size(max = 140, message = "タスクは140文字以内で入力してください")
     private String content;
