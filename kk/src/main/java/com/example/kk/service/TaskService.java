@@ -129,12 +129,10 @@ public class TaskService {
     private Task setTasksEntity(TaskForm reqTask) {
         Task task = new Task();
         BeanUtils.copyProperties(reqTask, task);
-        /*タスク期限に時間を追加
-        Date currentTime = reqTask.getLimitDate() + localTime;
-        task.setLimitDate(currentTime);
-        */
+        task.setStatus((byte) 1);
         return task;
     }
+
     /*
      * レコード1件取得処理
      */

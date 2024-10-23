@@ -65,7 +65,11 @@
           </form>
         </td>
         <td th:text="${task.limitDate}"></td>
-        <td><input type="submit" value="編集"></td>
+        <td>
+          <a th:href="@{/edit/{id}(id=${task.id})}">
+            <input type="submit" value="編集">
+          </a>
+        </td>
         <td>
           <form th:method="delete" th:action="@{/delete/{id}(id=${task.id})}" onSubmit="return CheckDelete()">
             <input type="submit" value="削除">

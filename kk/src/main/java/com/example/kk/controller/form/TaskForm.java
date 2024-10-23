@@ -4,7 +4,9 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static java.util.Map.entry;
@@ -12,8 +14,11 @@ import static java.util.Map.entry;
 @Getter
 @Setter
 public class TaskForm {
-
+    
     private int id;
+
+//    @Pattern(regexp = "^[0-9]*$", message = "不正なパラメータです")
+    private String strId;
 
     @NotBlank(message = "タスクを入力してください")
     @Size(max = 140, message = "タスクは140文字以内で入力してください")
@@ -22,11 +27,9 @@ public class TaskForm {
     private byte status;
 
     @NotNull(message = "期限を設定してください")
-    //今日の日付を入力すると末尾に00:00:00が追加されるため過去になっているのかも。
     @FutureOrPresent(message = "無効な日付です")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-//    @Pattern(regexp = "", message = "不正なパラメータです")
-    private Date limitDate;
+    private LocalDate limitDate;
 
     private Date createdDate;
 

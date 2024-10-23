@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -132,7 +133,7 @@ public class KkController {
 
     //新規タスク追加処理
     @PostMapping("/add")
-    public ModelAndView addContent(@Validated  @ModelAttribute("formModel") TaskForm taskForm, BindingResult result) {
+    public ModelAndView addContent(@Validated @ModelAttribute("formModel") TaskForm taskForm, BindingResult result) {
         //バリデーション処理
         if (result.hasErrors()) {
             List<String> errorList = new ArrayList<String>();
@@ -150,24 +151,58 @@ public class KkController {
     }
 
     /*
-     * 投稿編集画面表示
+     * タスク編集画面表示
      */
-    @GetMapping("/edit/{id}")
-    public ModelAndView editContent(@PathVariable Integer id) {
+    @GetMapping("/edit/{strId}")
+    public ModelAndView editContent(@PathVariable String strId) {
         ModelAndView mav = new ModelAndView();
-        // 編集するタスクを取得。
-        //TaskForm task = TaskService.editTask(id);
-        // 編集するタスクをセット
-        //mav.addObject("formModel", task);
-        // 画面遷移先を指定
+        TaskForm taskForm = new TaskForm();
+        taskForm.setStrId("");
+        if (!strId.matches("^[0-9]*$")) {
+            List<String> errorMessages = new ArrayList<String>();
+            errorMessages.add("不正なパラメータです");
+            mav.addObject("validationError", errorMessages);
+            mav.setViewName("/edit");
+            return mav;
+        }
+        int id = Integer.parseInt(strId);
+        taskForm.setId(id);
+
+        //編集するタスクを取得。
+        TaskForm task = taskService.editTask(id);
+        //編集するタスクをセット
+        mav.addObject("formModel", task);
+        //画面遷移先を指定
         mav.setViewName("/edit");
 
-        //バリデーション処理。セッションの値を取得しaddObject
-        List<Object> errorList = new ArrayList<>();
-        errorList.add(session.getAttribute("validationError"));
-        mav.addObject("validationError", errorList);
-        session.invalidate();
-
         return mav;
+    }
+
+    /*
+     * タスク編集処理
+     */
+    @PostMapping("/edit/{id}")
+    public ModelAndView updateContent(@PathVariable Integer id, @Validated @ModelAttribute("formModel") TaskForm taskForm, BindingResult result) throws ParseException {
+        ModelAndView mav = new ModelAndView();
+        //バリデーション処理
+        if (result.hasErrors()) {
+            List<String> errorList = new ArrayList<String>();
+            for (ObjectError error : result.getAllErrors()) {
+                errorList.add(error.getDefaultMessage());
+
+            }
+            mav.addObject("validationError", errorList);
+
+//            mav.addObject("validationError", errorList);
+//
+//            return new ModelAndView("redirect:/edit/{id}");
+            mav.setViewName("/edit");
+            return mav;
+        }
+
+        // 投稿をテーブルに格納
+        taskService.saveTask(taskForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/top");
     }
 }
