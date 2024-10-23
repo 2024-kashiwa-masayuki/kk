@@ -33,39 +33,63 @@ public class TaskService {
      * レコード絞り込み取得処理
      */
     public List<TaskForm> findTask(FilterConditionsForm filterConditionsForm) {
-        // 開始日の設定
-        if (!filterConditionsForm.getStart().isBlank()) {
-            filterConditionsForm.setStart(filterConditionsForm.getStart() + "00:00:00");
-        } else {
-            filterConditionsForm.setStart("2024-01-01 00:00:00");
-        }
-        // 終了日の設定
+        // 取得件数の上限値
+        int LIMIT_NUM = 1000;
+
+        String start = "2020-01-01 00:00:00";
+        String end = "2100-12-31 23:59:59";
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (!filterConditionsForm.getEnd().isBlank()) {
-            filterConditionsForm.setEnd(filterConditionsForm.getEnd() + " 23:59:59");
-        } else {
-            Date endDate = new Date();
-            filterConditionsForm.setEnd(formatter.format(endDate));
-        }
-        // タスクの設定
-        if (filterConditionsForm.getContent().isBlank()) {
-            filterConditionsForm.setContent("*");
-        }
-        // ステートの設定
-        TaskForm taskForm = new TaskForm();
-        Integer status = taskForm.translationToState(filterConditionsForm.getStatus());
-        // find
         try{
-            Date startDate = formatter.parse(filterConditionsForm.getStart());
-            Date endDate = formatter.parse(filterConditionsForm.getEnd());
-            List<Task> results = taskRepository.findTask(
-                    startDate,
-                    endDate,
-                    status,
-                    filterConditionsForm.getContent()
-            );
-            return setTaskForm(results);
+            // 開始日の設定
+            if (!filterConditionsForm.getStart().isBlank()) {
+                start = filterConditionsForm.getStart() + " 00:00:00";
+            }
+            filterConditionsForm.setStartDate(formatter.parse(start));
+            // 終了日の設定
+            if (!filterConditionsForm.getEnd().isBlank()) {
+                end = filterConditionsForm.getEnd() + " 23:59:59";
+            }
+            filterConditionsForm.setEndDate(formatter.parse(end));
+            // 検索処理
+            if (filterConditionsForm.getContent().isBlank()) {
+                if (filterConditionsForm.getStatus() == 0) {
+                    // タスク内容: 指定なし、ステータス: 指定なし
+                    List<Task> results = taskRepository.findByLimitDateBetween(
+                            filterConditionsForm.getStartDate(),
+                            filterConditionsForm.getEndDate(),
+                            LIMIT_NUM);
+                    return setTaskForm(results);
+                } else {
+                    // タスク内容: 指定なし、ステータス: 指定あり
+                    List<Task> results = taskRepository.findByLimitDateBetweenByStatus(
+                            filterConditionsForm.getStartDate(),
+                            filterConditionsForm.getEndDate(),
+                            filterConditionsForm.getStatus(),
+                            LIMIT_NUM);
+                    return setTaskForm(results);
+                }
+            } else {
+                if (filterConditionsForm.getStatus() == 0) {
+                    // タスク内容: 指定あり、ステータス: 指定なし
+                    List<Task> results = taskRepository.findByLimitDateBetweenByContent(
+                            filterConditionsForm.getStartDate(),
+                            filterConditionsForm.getEndDate(),
+                            filterConditionsForm.getContent(),
+                            LIMIT_NUM);
+                    return setTaskForm(results);
+                } else {
+                    // タスク内容: 指定あり、ステータス: 指定あり
+                    List<Task> results = taskRepository.findByLimitDateBetweenByContentByStatus(
+                            filterConditionsForm.getStartDate(),
+                            filterConditionsForm.getEndDate(),
+                            filterConditionsForm.getContent(),
+                            filterConditionsForm.getStatus(),
+                            LIMIT_NUM);
+                    return setTaskForm(results);
+                }
+            }
         } catch (ParseException e) {
+            // DateからStringへのキャストに失敗した場合は全件取得
             List<Task> results = taskRepository.findAllByOrderByUpdatedDate();
             return setTaskForm(results);
         }

@@ -3,6 +3,7 @@ package com.example.kk.controller;
 import com.example.kk.controller.form.FilterConditionsForm;
 import com.example.kk.controller.form.TaskForm;
 import com.example.kk.controller.form.TaskForm;
+import com.example.kk.repository.entity.Task;
 import com.example.kk.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +56,11 @@ public class KkController {
         mav.addObject("today", today);
         //空のオブジェクトをセット
         FilterConditionsForm filterConditionsForm = new FilterConditionsForm();
-        filterConditionsForm.setStart("");
-        filterConditionsForm.setEnd("");
-        filterConditionsForm.setStatus("");
         filterConditionsForm.setContent("");
         mav.addObject("filterConditionsForm", filterConditionsForm);
+        // ステータスマップをセット
+        TaskForm taskForm = new TaskForm();
+        mav.addObject("statusMap", taskForm.getStatusMap());
         return mav;
     }
 
@@ -72,15 +73,17 @@ public class KkController {
                                 @ModelAttribute("filterCondition") FilterConditionsForm filterConditionsForm) {
 
         ModelAndView mav = new ModelAndView();
-        // 投稿を全件取得
-        List<TaskForm> contentData = taskService.findTask(filterConditionsForm);
+        // タスクを取得
+        List<TaskForm> TasksData  = taskService.findTask(filterConditionsForm);
+        // タスクデータオブジェクトを保管
+        mav.addObject("tasks", TasksData);
         // 画面遷移先を指定
         mav.setViewName("/top");
-        // 投稿データオブジェクトを保管
-        mav.addObject("contents", contentData);
-        // 絞り込み条件をセット
-        mav.addObject("start", start);
-        mav.addObject("end", end);
+        // オブジェクトをセット
+        mav.addObject("filterConditionsForm", filterConditionsForm);
+        // ステータスマップをセット
+        TaskForm taskForm = new TaskForm();
+        mav.addObject("statusMap", taskForm.getStatusMap());
         return mav;
     }
     /*

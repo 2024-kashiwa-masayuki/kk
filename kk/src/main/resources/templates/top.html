@@ -30,11 +30,9 @@
     <form mothod="get" th:action="@{/{start}-{end}-{status}-{content}(start=${start}, end=${end}, status=${status}, content=${content})}" th:object="${filterConditionsForm}">
       期限<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
       ステータス
-      <select name="status" th:field="*{status}">
-        <option value="未着手">未着手</option>
-        <option value="実行中">実行中</option>
-        <option value="ステイ中">ステイ中</option>
-        <option value="完了">完了</option>
+      <select th:name="status">
+        <option th:value="0"></option>
+        <option th:each="item : ${statusMap}" th:value="${item.key}" th:text="${item.value}"></option>
       </select>
       タスク内容<input type="text" name="content" th:field="*{content}">
       <input type="submit" value="絞込">
