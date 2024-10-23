@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link th:href="@{/css/style.css}" rel="styleSheet">
+  <script th:src="@{/js/script.js}"></script>
   <title>TODOリスト</title>
 </head>
 <body>
@@ -32,7 +33,7 @@
       ステータス
       <select th:name="status">
         <option th:value="0"></option>
-        <option th:each="item : ${statusMap}" th:value="${item.key}" th:text="${item.value}"></option>
+        <option th:each="item : ${taskForm.statusMap}" th:value="${item.key}" th:text="${item.value}"></option>
       </select>
       タスク内容<input type="text" name="content" th:field="*{content}">
       <input type="submit" value="絞込">
@@ -46,7 +47,6 @@
       <tr>
         <th>タスク内容</th>
         <th>ステータス</th>
-        <th>　　</th>
         <th>タスク期限</th>
         <th>　　</th>
         <th>　　</th>
@@ -55,12 +55,19 @@
     <tbody>
       <tr th:each="task: ${tasks}">
         <td th:text="${task.content}"></td>
-        <td th:text="${task.statusLabel}"></td>
-        <td><input type="submit" value="変更"></td>
+        <td>
+          <form method="get" th:action="@{/change/{id}-{status}(id=${task.id}, status=${status})}" th:object="${taskForm}"  onSubmit="return ChangeStatus()">
+            <select th:name="status">
+              <option th:each="item : ${taskForm.statusMap}" th:value="${item.key}" th:selected="${item.key == task.status}" th:text="${item.value}"></option>
+            </select>
+            <input type="hidden" th:name="id" th:value="${task.id}">
+            <input class="changeButton" type="submit" value="変更">
+          </form>
+        </td>
         <td th:text="${task.limitDate}"></td>
         <td><input type="submit" value="編集"></td>
         <td>
-          <form th:method="delete" th:action="@{/delete/{id}(id=${task.id})}">
+          <form th:method="delete" th:action="@{/delete/{id}(id=${task.id})}" onSubmit="return CheckDelete()">
             <input type="submit" value="削除">
           </form>
         </td>

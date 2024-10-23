@@ -28,7 +28,6 @@ public class Task {
     @Column(name="created_date", insertable = false, updatable = false)
     private Date createdDate;
 
-    //a
     @Column(name="updated_date", insertable = false, updatable = false)
     private Date updatedDate;
 }

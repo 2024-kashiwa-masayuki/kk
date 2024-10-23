@@ -59,7 +59,7 @@ public class KkController {
         mav.addObject("filterConditionsForm", filterConditionsForm);
         // ステータスマップをセット
         TaskForm taskForm = new TaskForm();
-        mav.addObject("statusMap", taskForm.getStatusMap());
+        mav.addObject("taskForm", taskForm);
         return mav;
     }
 
@@ -82,21 +82,34 @@ public class KkController {
         mav.addObject("filterConditionsForm", filterConditionsForm);
         // ステータスマップをセット
         TaskForm taskForm = new TaskForm();
-        mav.addObject("statusMap", taskForm.getStatusMap());
+        mav.addObject("taskForm", taskForm);
         return mav;
     }
     /*
      * タスク削除処理
      */
     @DeleteMapping("/delete/{id}")
-    public ModelAndView deleteComment(@PathVariable Integer id) {
+    public ModelAndView deleteTask(@PathVariable Integer id) {
 
         // 投稿をテーブルから削除
         taskService.deleteTask(id);
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
     }
+    /*
+     * タスクステータス変更処理
+     */
+    @GetMapping("/change/{id}-{status}")
+    public ModelAndView changeStatus(@PathVariable Integer id,
+                                     @ModelAttribute("taskForm") TaskForm reqTaskForm) {
 
+        // ステータスを変更
+        TaskForm taskForm = taskService.editTask(id);
+        taskForm.setStatus(reqTaskForm.getStatus());
+        taskService.saveTask(taskForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/top");
+    }
     //新規タスク追加画面表示a
     @GetMapping("/new")
     public ModelAndView newContent() {
