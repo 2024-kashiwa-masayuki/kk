@@ -16,7 +16,7 @@
     <h1>タスク編集</h1>
 </div>
 <div class="main-contents">
-    <form method="post" action="@{/edit/{id}(id=${formModel.id})}" th:object="${formModel}">
+    <form method="post" th:action="@{/edit/{id}(id=${formModel.id})}" th:object="${formModel}">
         <div class="form-area">
             <div>
                 <label>タスク内容</label><br />
@@ -35,7 +35,7 @@
             <br />
         </div>
         <div>
-            <a href="./top">戻る</a>
+            <a href="/top">戻る</a>
         </div>
     </form>
 </div>

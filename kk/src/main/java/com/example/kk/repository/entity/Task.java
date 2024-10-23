@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,7 +24,7 @@ public class Task {
     private byte status;
 
     @Column(name="limit_date")
-    private Date limitDate;
+    private LocalDate limitDate;
 
     @Column(name="created_date", insertable = false, updatable = false)
     private Date createdDate;
