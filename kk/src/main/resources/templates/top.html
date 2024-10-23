@@ -64,7 +64,7 @@
             <input class="changeButton" type="submit" value="変更">
           </form>
         </td>
-        <td th:text="${task.limitDate}"></td>
+        <td class="limit-date" th:text="${task.limitDate}"></td>
         <td>
           <a th:href="@{/edit/{id}(id=${task.id})}">
             <input type="submit" value="編集">
@@ -77,19 +77,6 @@
         </td>
       </tr>
     </tbody>
-    <!-- content
-      <td>
-        <a th:href="@{/edit/{id}(id=${content.id})}">
-          <input type="submit" value="編集">
-        </a>
-      </td>
-      <td>
-        <form th:method="delete" th:action="@{/delete/{id}(id=${content.id})}">
-          <input type="submit" value="削除" />
-        </form>
-      </td>
-    </tr>
-    -->
   </table>
 </div>
 </body>
