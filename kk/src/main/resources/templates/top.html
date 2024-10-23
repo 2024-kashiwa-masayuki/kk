@@ -29,14 +29,20 @@
   <!-- 絞り込み機能実装 -->
   <div>
     <form mothod="get" th:action="@{/{start}-{end}-{status}-{content}(start=${start}, end=${end}, status=${status}, content=${content})}" th:object="${filterConditionsForm}">
+      <a class="limitDate">
       期限<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
+      </a>
+      <a class="status">
       ステータス
       <select th:name="status">
         <option th:value="0"></option>
         <option th:each="item : ${taskForm.statusMap}" th:value="${item.key}" th:text="${item.value}"></option>
       </select>
+      </a>
+      <a class="content">
       タスク内容<input type="text" name="content" th:field="*{content}">
       <input type="submit" value="絞込">
+      </a>
     </form>
   </div>
   <br />
@@ -54,7 +60,7 @@
     </thead>
     <tbody>
       <tr th:each="task: ${tasks}">
-        <td th:text="${task.content}"></td>
+        <td><pre th:text="${task.content}"></pre></td>
         <td>
           <form method="get" th:action="@{/change/{id}-{status}(id=${task.id}, status=${status})}" th:object="${taskForm}"  onSubmit="return ChangeStatus()">
             <select th:name="status">

@@ -20,6 +20,7 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
     public List<Task> findAllByOrderByUpdatedDate();
+    public List<Task> findAllByOrderByLimitDate();
 
     @Query(
         value = "SELECT * FROM tasks " +

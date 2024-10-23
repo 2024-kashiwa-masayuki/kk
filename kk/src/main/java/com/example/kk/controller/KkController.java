@@ -5,6 +5,7 @@ import com.example.kk.controller.form.TaskForm;
 import com.example.kk.controller.form.TaskForm;
 import com.example.kk.repository.entity.Task;
 import com.example.kk.service.TaskService;
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -111,7 +112,7 @@ public class KkController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
     }
-    //新規タスク追加画面表示a
+    //新規タスク追加画面表示
     @GetMapping("/new")
     public ModelAndView newContent() {
         ModelAndView mav = new ModelAndView();
@@ -121,27 +122,31 @@ public class KkController {
         mav.setViewName("/new");
         // 準備した空のFormを保管
         mav.addObject("formModel", tasksForm);
-
-        //バリデーション処理。セッションの値を取得しaddObject
-        List<Object> errorList = new ArrayList<>();
-        errorList.add(session.getAttribute("validationError"));
-        mav.addObject("validationError", errorList);
-        session.invalidate();
-
         return mav;
     }
 
     //新規タスク追加処理
     @PostMapping("/add")
     public ModelAndView addContent(@Validated @ModelAttribute("formModel") TaskForm taskForm, BindingResult result) {
+        ModelAndView mav = new ModelAndView();
         //バリデーション処理
+        List<String> errorList = new ArrayList<String>();
+
+        //全角スペースもバリデーションでひっかけるための処理
+        if (StringUtils.isBlank(taskForm.getContent())) {
+            errorList.add("タスクを入力してください");
+        }
+
         if (result.hasErrors()) {
-            List<String> errorList = new ArrayList<String>();
             for (ObjectError error : result.getAllErrors()) {
                 errorList.add(error.getDefaultMessage());
             }
-            session.setAttribute("validationError", errorList);
-            return new ModelAndView("redirect:/new");
+        }
+
+        if (errorList.size() != 0) {
+            mav.addObject("validationError", errorList);
+            mav.setViewName("/new");
+            return mav;
         }
 
         // 投稿をテーブルに格納
@@ -184,21 +189,28 @@ public class KkController {
     @PostMapping("/edit/{id}")
     public ModelAndView updateContent(@PathVariable Integer id, @Validated @ModelAttribute("formModel") TaskForm taskForm, BindingResult result) throws ParseException {
         ModelAndView mav = new ModelAndView();
+
         //バリデーション処理
+        List<String> errorList = new ArrayList<String>();
+
+        //全角スペースもバリデーションでひっかけるための処理
+        if (StringUtils.isBlank(taskForm.getContent())) {
+            errorList.add("タスクを入力してください");
+        }
+
         if (result.hasErrors()) {
-            List<String> errorList = new ArrayList<String>();
             for (ObjectError error : result.getAllErrors()) {
                 errorList.add(error.getDefaultMessage());
-
             }
-            mav.addObject("validationError", errorList);
+        }
 
-//            mav.addObject("validationError", errorList);
-//
-//            return new ModelAndView("redirect:/edit/{id}");
+        if (errorList.size() != 0) {
+            mav.addObject("validationError", errorList);
             mav.setViewName("/edit");
             return mav;
         }
+
+
 
         // 投稿をテーブルに格納
         taskService.saveTask(taskForm);

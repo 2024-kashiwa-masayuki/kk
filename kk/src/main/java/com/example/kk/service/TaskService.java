@@ -26,7 +26,8 @@ public class TaskService {
      * レコード全件取得処理
      */
     public List<TaskForm> findAllTask() {
-        List<Task> results = taskRepository.findAllByOrderByUpdatedDate();
+//        List<Task> results = taskRepository.findAllByOrderByUpdatedDate();
+        List<Task> results = taskRepository.findAllByOrderByLimitDate();
         return setTaskForm(results);
     }
     /*

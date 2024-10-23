@@ -8,8 +8,12 @@
 <body>
 
 <!-- エラーメッセージの表示 -->
-<div th:if="${validationError}" th:each="error : ${validationError}">
-    <div th:text="${error}"></div>
+<div class="errorMessages">
+    <ul>
+        <div th:if="${validationError}" th:each="error : ${validationError}">
+            <li><div th:text="${error}" /></li>
+        </div>
+    </ul>
 </div>
 
 <div class="header-contents">
@@ -20,7 +24,7 @@
         <div class="form-area">
             <div>
                 <label>タスク内容</label><br />
-                <input type="text" th:field="*{content}">
+                <textarea class="tweet-box" th:field="*{content}" size="20" maxlength="200" /></textarea><br/>
             </div>
             <br/>
             <div>
