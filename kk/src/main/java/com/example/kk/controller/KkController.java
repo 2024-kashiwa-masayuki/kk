@@ -163,8 +163,17 @@ public class KkController {
                                     RedirectAttributes redirectAttributes) {
 
         ModelAndView mav = new ModelAndView();
-        //バリデーション処理
-        if (!strId.matches("^[0-9]+$")) {
+        TaskForm task = null;
+
+        if (strId.matches("^[0-9]+$")) {
+            try {
+                task = taskService.editTask(Integer.parseInt(strId));
+            } catch(RuntimeException e) {
+                task = null;
+            }
+        }
+
+        if (task == null) {
             List<String> errorList = new ArrayList<String>();
             errorList.add("不正なパラメータです");
             redirectAttributes.addFlashAttribute("validationError", errorList);
@@ -172,9 +181,8 @@ public class KkController {
             return mav;
         }
 
-        int id = Integer.parseInt(strId);
-        //編集するタスクを取得。
-        TaskForm task = taskService.editTask(id);
+        //int id = Integer.parseInt(strId);
+        //TaskForm task = taskService.editTask(id);
         //編集するタスクをセット
         mav.addObject("formModel", task);
         //画面遷移先を指定
