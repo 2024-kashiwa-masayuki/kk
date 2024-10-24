@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,7 +24,6 @@ public class TaskService {
      * レコード全件取得処理
      */
     public List<TaskForm> findAllTask() {
-//        List<Task> results = taskRepository.findAllByOrderByUpdatedDate();
         List<Task> results = taskRepository.findAllByOrderByLimitDate();
         return setTaskForm(results);
     }
@@ -115,7 +112,6 @@ public class TaskService {
     public void deleteTask(Integer id) {
         taskRepository.deleteById(id);
     }
-
     /*
      * レコード追加
      */
@@ -123,7 +119,6 @@ public class TaskService {
         Task saveTask = setTasksEntity(reqTask);
         taskRepository.save(saveTask);
     }
-
     /*
      *リストから取得した情報をentityに設定
      */
@@ -132,7 +127,6 @@ public class TaskService {
         BeanUtils.copyProperties(reqTask, task);
         return task;
     }
-
     /*
      * レコード1件取得処理
      */

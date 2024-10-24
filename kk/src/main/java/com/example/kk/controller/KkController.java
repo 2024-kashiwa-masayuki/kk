@@ -2,8 +2,6 @@ package com.example.kk.controller;
 
 import com.example.kk.controller.form.FilterConditionsForm;
 import com.example.kk.controller.form.TaskForm;
-import com.example.kk.controller.form.TaskForm;
-import com.example.kk.repository.entity.Task;
 import com.example.kk.service.TaskService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpSession;
@@ -13,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
@@ -22,12 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.web.servlet.ModelAndView;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class KkController {
@@ -129,7 +121,6 @@ public class KkController {
         mav.addObject("formModel", tasksForm);
         return mav;
     }
-
     //新規タスク追加処理
     @PostMapping("/add")
     public ModelAndView addContent(@Validated @ModelAttribute("formModel") TaskForm taskForm, BindingResult result) {
@@ -159,14 +150,12 @@ public class KkController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
     }
-
     /*
      * タスク編集画面表示
      */
     @GetMapping("/edit/{strId}")
     public ModelAndView editContent(@PathVariable String strId,
                                     RedirectAttributes redirectAttributes) {
-
         ModelAndView mav = new ModelAndView();
         TaskForm task = null;
 
@@ -186,8 +175,6 @@ public class KkController {
             return mav;
         }
 
-        //int id = Integer.parseInt(strId);
-        //TaskForm task = taskService.editTask(id);
         //編集するタスクをセット
         mav.addObject("formModel", task);
         //画面遷移先を指定
@@ -195,7 +182,6 @@ public class KkController {
 
         return mav;
     }
-
     /*
      * タスク編集処理
      */
@@ -222,8 +208,6 @@ public class KkController {
             mav.setViewName("/edit");
             return mav;
         }
-
-
 
         // 投稿をテーブルに格納
         taskService.saveTask(taskForm);
