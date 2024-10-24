@@ -82,6 +82,11 @@ public class KkController {
         mav.setViewName("/top");
         // オブジェクトをセット
         mav.addObject("filterConditionsForm", filterConditionsForm);
+        //本日の日付の取得
+        Date date = new Date();
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String today = sdFormat.format(date);
+        mav.addObject("today", today);
         // ステータスマップをセット
         TaskForm taskForm = new TaskForm();
         mav.addObject("taskForm", taskForm);
