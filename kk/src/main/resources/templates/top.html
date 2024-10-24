@@ -10,10 +10,14 @@
 <div class="header-contents">
   <h1>TODO</h1>
   <!-- エラーメッセージの表示 -->
-  <div th:if="${validationError}" th:each="error : ${validationError}">
-    <div th:text="${error}"></div>
+  <div class="errorMessages">
+    <ul>
+    <div th:if="${validationError}" th:each="error : ${validationError}">
+      <li><div th:text="${error}"></div></li>
+    </div>
+    </ul>
   </div>
-</div>
+
 <div class="main-contents">
 
   <!-- 本日の日付 -->
@@ -64,7 +68,7 @@
     </thead>
     <tbody>
       <tr th:each="task: ${tasks}">
-        <td><pre th:text="${task.content}"></pre></td>
+        <td class="content"><pre th:text="${task.content}" style="white-space: pre-wrap;"></pre></td>
         <td>
           <form method="get" th:action="@{/change/{id}-{status}(id=${task.id}, status=${status})}" th:object="${taskForm}"  onSubmit="return ChangeStatus()">
             <select th:name="status">
