@@ -29,11 +29,17 @@ public class Task {
     @Column(name="created_date", insertable = false, updatable = false)
     private Date createdDate;
 
-    @Column(name="updated_date", insertable = false, updatable = false)
+    @Column(name="updated_date", insertable = false, updatable = true)
     private Date updatedDate;
 
     @PrePersist
     public  void  onPrePersist () {
         this.setStatus((byte)1);
+    }
+
+    @PreUpdate
+    public  void  onPreUpdate () {
+        Date date = new Date();
+        this .setUpdatedDate(date);
     }
 }
