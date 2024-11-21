@@ -105,7 +105,7 @@ public class KkController {
         // ステータスを変更
         TaskForm taskForm = taskService.editTask(id);
         taskForm.setStatus(reqTaskForm.getStatus());
-        taskService.saveTask(taskForm);
+        taskService.updateStatus(taskForm, id);
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
     }
@@ -210,7 +210,7 @@ public class KkController {
         }
 
         // 投稿をテーブルに格納
-        taskService.saveTask(taskForm);
+        taskService.updateTask(taskForm, id);
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
     }

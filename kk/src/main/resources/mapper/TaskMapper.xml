@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kk.mapper.TaskMapper">
+    <resultMap id="task" type="com.example.kk.entity.Task">
+        <result column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="limit_date" property="limitDate"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+    </resultMap>
+
+    <select id="findAllByOrderByUpdatedDate" resultMap="task">
+        SELECT * FROM tasks
+        ORDER BY updated_date
+    </select>
+
+    <select id="findAllByOrderByLimitDate" resultMap="task">
+        SELECT * FROM tasks
+        ORDER BY limit_date
+    </select>
+
+    <select id="findByLimitDateBetween" resultMap="task">
+        SELECT * FROM tasks
+        WHERE limit_date BETWEEN #{start} AND #{end}
+        ORDER BY limit_date ASC LIMIT #{limitNum}
+    </select>
+
+    <select id="findByLimitDateBetweenByStatus" resultMap="task">
+        SELECT * FROM tasks
+        WHERE limit_date BETWEEN #{start} AND #{end}
+        AND status = #{status}
+        ORDER BY limit_date ASC LIMIT #{limitNum}
+    </select>
+
+    <select id="findByLimitDateBetweenByContent" resultMap="task">
+        SELECT * FROM tasks
+        WHERE limit_date BETWEEN #{start} AND #{end}
+        AND content = #{content}
+        ORDER BY limit_date ASC LIMIT #{limitNum}
+    </select>
+
+    <select id="findByLimitDateBetweenByContentByStatus" resultMap="task">
+        SELECT * FROM tasks
+        WHERE limit_date BETWEEN #{start} AND #{end}
+        AND content = #{content}
+        AND status = #{status}
+        ORDER BY limit_date ASC LIMIT #{limitNum}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM tasks
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="save">
+        INSERT INTO tasks
+        (content, status, limit_date)
+        VALUES (#{task.content}, #{task.status}, #{task.limitDate})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE tasks
+        SET status = #{task.status}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateTask">
+        UPDATE tasks
+        <set>
+            <if test="task.content != '' and task.content != null">
+                content = #{task.content},
+            </if>
+            <if test="task.limitDate != null">
+                limit_date = #{task.limitDate},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="findById" resultMap="task">
+        SELECT * FROM tasks
+        WHERE id = #{id}
+    </select>
+</mapper>

@@ -2,11 +2,11 @@ package com.example.kk.service;
 
 import com.example.kk.controller.form.FilterConditionsForm;
 import com.example.kk.controller.form.TaskForm;
-import com.example.kk.repository.TaskRepository;
-import com.example.kk.repository.entity.Task;
+import com.example.kk.entity.Task;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.kk.mapper.TaskMapper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,13 +18,13 @@ import java.util.List;
 public class TaskService {
 
     @Autowired
-    TaskRepository taskRepository;
+    TaskMapper taskMapper;
 
     /*
      * レコード全件取得処理
      */
     public List<TaskForm> findAllTask() {
-        List<Task> results = taskRepository.findAllByOrderByLimitDate();
+        List<Task> results = taskMapper.findAllByOrderByLimitDate();
         return setTaskForm(results);
     }
     /*
@@ -52,14 +52,14 @@ public class TaskService {
             if (filterConditionsForm.getContent().isBlank()) {
                 if (filterConditionsForm.getStatus() == 0) {
                     // タスク内容: 指定なし、ステータス: 指定なし
-                    List<Task> results = taskRepository.findByLimitDateBetween(
+                    List<Task> results = taskMapper.findByLimitDateBetween(
                             filterConditionsForm.getStartDate(),
                             filterConditionsForm.getEndDate(),
                             LIMIT_NUM);
                     return setTaskForm(results);
                 } else {
                     // タスク内容: 指定なし、ステータス: 指定あり
-                    List<Task> results = taskRepository.findByLimitDateBetweenByStatus(
+                    List<Task> results = taskMapper.findByLimitDateBetweenByStatus(
                             filterConditionsForm.getStartDate(),
                             filterConditionsForm.getEndDate(),
                             filterConditionsForm.getStatus(),
@@ -69,7 +69,7 @@ public class TaskService {
             } else {
                 if (filterConditionsForm.getStatus() == 0) {
                     // タスク内容: 指定あり、ステータス: 指定なし
-                    List<Task> results = taskRepository.findByLimitDateBetweenByContent(
+                    List<Task> results = taskMapper.findByLimitDateBetweenByContent(
                             filterConditionsForm.getStartDate(),
                             filterConditionsForm.getEndDate(),
                             filterConditionsForm.getContent(),
@@ -77,7 +77,7 @@ public class TaskService {
                     return setTaskForm(results);
                 } else {
                     // タスク内容: 指定あり、ステータス: 指定あり
-                    List<Task> results = taskRepository.findByLimitDateBetweenByContentByStatus(
+                    List<Task> results = taskMapper.findByLimitDateBetweenByContentByStatus(
                             filterConditionsForm.getStartDate(),
                             filterConditionsForm.getEndDate(),
                             filterConditionsForm.getContent(),
@@ -88,7 +88,7 @@ public class TaskService {
             }
         } catch (ParseException e) {
             // DateからStringへのキャストに失敗した場合は全件取得
-            List<Task> results = taskRepository.findAllByOrderByUpdatedDate();
+            List<Task> results = taskMapper.findAllByOrderByUpdatedDate();
             return setTaskForm(results);
         }
     }
@@ -110,15 +110,32 @@ public class TaskService {
      * レコード削除
      */
     public void deleteTask(Integer id) {
-        taskRepository.deleteById(id);
+        taskMapper.deleteById(id);
     }
     /*
      * レコード追加
      */
     public void saveTask(TaskForm reqTask) {
         Task saveTask = setTasksEntity(reqTask);
-        taskRepository.save(saveTask);
+        taskMapper.save(saveTask);
     }
+
+    /*
+     * ステータス更新
+     */
+    public void updateStatus(TaskForm reqTask, Integer id) {
+        Task saveTask = setTasksEntity(reqTask);
+        taskMapper.updateStatus(saveTask, id);
+    }
+
+    /*
+     * ステータス更新
+     */
+    public void updateTask(TaskForm reqTask, Integer id) {
+        Task saveTask = setTasksEntity(reqTask);
+        taskMapper.updateTask(saveTask, id);
+    }
+
     /*
      *リストから取得した情報をentityに設定
      */
@@ -132,7 +149,7 @@ public class TaskService {
      */
     public TaskForm editTask(Integer id) {
         List<Task> results = new ArrayList<>();
-        results.add((Task) taskRepository.findById(id).orElse(null));
+        results.add(taskMapper.findById(id));
         List<TaskForm> tasks = setTaskForm(results);
         return tasks.get(0);
     }

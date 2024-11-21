@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/kk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/kk_myBatis.iml" filepath="$PROJECT_DIR$/.idea/kk_myBatis.iml" />
     </modules>
   </component>
 </project>
