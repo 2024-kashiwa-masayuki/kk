@@ -159,6 +159,7 @@ public class KkController {
         ModelAndView mav = new ModelAndView();
         TaskForm task = null;
 
+        //DBUnitでテスト？
         if (strId.matches("^[0-9]+$")) {
             try {
                 task = taskService.editTask(Integer.parseInt(strId));
@@ -213,5 +214,16 @@ public class KkController {
         taskService.saveTask(taskForm);
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
+    }
+
+    /*
+     * ①addContent()の全角スペースバリデーションのテスト用メソッド
+     */
+    public List<String> validateTaskTest(TaskForm taskForm) {
+        List<String> errorList = new ArrayList<>();
+        if (StringUtils.isBlank(taskForm.getContent())) {
+            errorList.add("タスクを入力してください");
+        }
+        return errorList;
     }
 }

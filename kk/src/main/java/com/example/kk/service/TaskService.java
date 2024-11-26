@@ -49,6 +49,7 @@ public class TaskService {
             }
             filterConditionsForm.setEndDate(formatter.parse(end));
             // 検索処理
+            //DBUnitでテスト？
             if (filterConditionsForm.getContent().isBlank()) {
                 if (filterConditionsForm.getStatus() == 0) {
                     // タスク内容: 指定なし、ステータス: 指定なし
@@ -135,5 +136,28 @@ public class TaskService {
         results.add((Task) taskRepository.findById(id).orElse(null));
         List<TaskForm> tasks = setTaskForm(results);
         return tasks.get(0);
+    }
+
+    /*
+     * ②レコード絞り込み取得処理の日付がblankの場合の処理テスト
+     */
+    public FilterConditionsForm findTaskTest(FilterConditionsForm filterConditionsForm) throws ParseException {
+        // 取得件数の上限値
+        int LIMIT_NUM = 1000;
+
+        String start = "2020-01-01 00:00:00";
+        String end = "2100-12-31 23:59:59";
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 開始日の設定
+        if (!filterConditionsForm.getStart().isBlank()) {
+            start = filterConditionsForm.getStart() + " 00:00:00";
+        }
+        filterConditionsForm.setStartDate(formatter.parse(start));
+        // 終了日の設定
+        if (!filterConditionsForm.getEnd().isBlank()) {
+            end = filterConditionsForm.getEnd() + " 23:59:59";
+        }
+        filterConditionsForm.setEndDate(formatter.parse(end));
+        return filterConditionsForm;
     }
 }
