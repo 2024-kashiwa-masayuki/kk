@@ -35,6 +35,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+	testImplementation 'org.dbunit:dbunit:2.7.3'
+	// PostgreSQL JDBC Driver
+	//implementation 'org.postgresql:postgresql:42.6.0'
+	//提案でバージョンを更新
+	implementation 'org.postgresql:postgresql:42.7.2'
 }
 
 tasks.named('test') {
