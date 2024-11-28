@@ -15,9 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -133,10 +132,12 @@ public class KkController {
             errorList.add("タスクを入力してください");
         }
 
+        //StreamAPI
         if (result.hasErrors()) {
-            for (ObjectError error : result.getAllErrors()) {
-                errorList.add(error.getDefaultMessage());
-            }
+            errorList.addAll(result.getAllErrors()
+                    .stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.toList()));
         }
 
         if (errorList.size() != 0) {
@@ -169,8 +170,7 @@ public class KkController {
         }
 
         if (task == null) {
-            List<String> errorList = new ArrayList<String>();
-            errorList.add("不正なパラメータです");
+            List<String> errorList = Collections.singletonList("不正なパラメータです") ;
             redirectAttributes.addFlashAttribute("validationError", errorList);
             mav.setViewName("redirect:/top");
             return mav;
@@ -194,9 +194,12 @@ public class KkController {
         List<String> errorList = new ArrayList<String>();
 
         //全角スペースもバリデーションでひっかけるための処理
-        if (StringUtils.isBlank(taskForm.getContent())) {
-            errorList.add("タスクを入力してください");
-        }
+        Optional.ofNullable(taskForm.getContent())
+                .filter(StringUtils::isNotBlank)
+                .orElseGet(() -> {
+                    errorList.add("タスクを入力してください");
+                    return null;
+                });
 
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {

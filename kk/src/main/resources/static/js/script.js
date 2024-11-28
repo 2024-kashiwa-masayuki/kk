@@ -51,3 +51,27 @@ function ChangeStatus(){
         return false;
     }
 }
+
+$(function() {
+    $('#taskNew').on("keyup", function(e){
+        alert('key:'+e.key);
+    });
+});
+
+$(function() {
+    $('#nowDate').on("mousedown", function(e){
+        alert('本日の日付です');
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.location.pathname === "/top") {
+        let messages = [
+                        "今日も一日頑張りましょう！",
+                        "１つ１つ着実に完了させていきましょう",
+                        "もう一息です",
+                        ];
+        let randomIndex = Math.floor(Math.random() * messages.length);
+        alert(messages[randomIndex]);
+    }
+});

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link th:href="@{/css/style.css}" rel="styleSheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script th:src="@{/js/script.js}"></script>
   <title>TODOリスト</title>
 </head>
@@ -21,7 +22,7 @@
 <div class="main-contents">
   <!-- 本日の日付 -->
   <div>
-    <label>本日の日付：<span th:text="${today}"></span></label>
+    <label>本日の日付：<span th:text="${today}" id="nowDate"></span></label>
   </div>
   <br/>
 
